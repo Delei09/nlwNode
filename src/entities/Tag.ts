@@ -5,32 +5,29 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
   } from "typeorm";
-  import { Exclude } from "class-transformer";
+  
+  import { Expose } from "class-transformer";
+  
   import { v4 as uuid } from "uuid";
   
-  @Entity("users")
-  class User {
+  @Entity("tags")
+  class Tag {
     @PrimaryColumn()
     readonly id: string;
   
     @Column()
     name: string;
   
-    @Column()
-    email: string;
-  
-    @Column()
-    admin: boolean;
-  
-    @Exclude()
-    @Column()
-    password: string;
-  
     @CreateDateColumn()
     created_at: Date;
   
     @UpdateDateColumn()
     updated_at: Date;
+  
+    @Expose({ name: "name_custom" })
+    nameCustom(): string {
+      return `#${this.name}`;
+    }
   
     constructor() {
       if (!this.id) {
@@ -39,5 +36,4 @@ import {
     }
   }
   
-  export { User };
-  
+  export { Tag };
